@@ -22,6 +22,9 @@ jobs:
         uses: docker/metadata-action@5.7.0
         with:
           images: mrbeskonechnost/identidock
+          tags: |
+            type=sha,prefix={{branch}}-
+            type=ref,event=branch,value={{ commit_date 'YYYYMMDD-HHmmss'}}
 
       - name: Build and push Docker image
         id: push
