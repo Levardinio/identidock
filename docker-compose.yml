@@ -1,0 +1,23 @@
+version: "3"
+services:
+  identidock:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      ENV: PROD
+    volumes:
+      - ./app:/app
+    depends_on:
+      - dnmonster
+      - redis
+
+  dnmonster:
+    image: amouat/dnmonster:1.1
+    ports:
+      - "8080:8080"
+
+  redis:
+    image: "redis:7.4.2"
+
+
