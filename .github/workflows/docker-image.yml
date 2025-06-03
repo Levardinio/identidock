@@ -1,3 +1,5 @@
+name: Build and Push Docker Image
+
 on:
   push:
     branches: [ "main" ]
@@ -9,7 +11,8 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Docker Login
         uses: docker/login-action@v3.4.0
@@ -23,11 +26,9 @@ jobs:
         with:
           images: mrbeskonechnost/identidock
           tags: |
-            type=sha,prefix={{branch}}-
-            type=ref,event=branch,value={{ commit_date 'YYYYMMDD-HHmmss'}}
+            type=raw,value=mrbeskonechnost/identidock:{{date 'YYYY-MM-DD_HH-mm-ss' tz='UTC'}}
 
       - name: Build and push Docker image
-        id: push
         uses: docker/build-push-action@v6.18.0
         with:
           context: .
